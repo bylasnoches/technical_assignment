@@ -76,3 +76,23 @@ curl --location 'http://0.0.0.0:8110/api/rates?baseCurrency=BTC&quoteCurrency=US
 ```bash
 curl --location '0.0.0.0:8110/api/rates?baseCurrency=BTC&quoteCurrency=USD&from=2025-04-18%2012%3A22%3A11.000000&to=2025-04-18%2012%3A29%3A14.000000'
 ```
+
+## 🧪 Developer Tools (Inside Container)
+
+You can run the following quality assurance tools **inside the PHP container**:
+
+| Command         | Description                       |
+|----------------|-----------------------------------|
+| `make phpcs`    | Run PHP CodeSniffer (PSR-12)      |
+| `make phpunit`  | Run PHPUnit tests                 |
+
+
+## ✅ TODO
+
+List of optional improvements:
+
+- Add cron job or background worker for hourly updates
+- Add PHP Mess Detector (phpmd)
+- Add Psalm for static analysis
+- Acceptance tests
+- Integration tests
