@@ -1,0 +1,67 @@
+services:
+
+    nginx:
+        build:
+            context: ./nginx/
+        image: currency-exchange-nginx:dev
+        container_name: currency-exchange-nginx
+        env_file:
+            - .env
+        environment:
+            UID_VAR: ${UID_VALUE}
+            GID_VAR: ${GID_VALUE}
+        ports:
+            - "${HOST_NGINX_PORT}:80"
+        links:
+            - php
+        volumes:
+            - ../project/public:/var/www/currency-exchange/public
+        networks:
+            - dev_network
+
+    php:
+        build:
+            context: ./php/
+            args:
+                USER_NAME: ${USER_NAME}
+                USER_ID: ${UID_VALUE}
+        image: currency-exchange-php:dev
+        container_name: currency-exchange-php
+        env_file:
+            - .env
+        environment:
+            UID_VAR: ${UID_VALUE}
+            GID_VAR: ${GID_VALUE}
+            UID: ${UID_VALUE}
+            GID: ${GID_VALUE}
+        expose:
+            - "9000"
+        networks:
+            - dev_network
+        volumes:
+            - ../project:/var/www/currency-exchange
+        links:
+            - database
+
+    database:
+        build:
+            context: ./db/
+        image: currency-exchange-db:dev
+        container_name: currency-exchange-db
+        env_file:
+            - .env
+        environment:
+            PGDATA: /pgdata
+            POSTGRES_DB: ${DATABASE_NAME}
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+        ports:
+            - "${HOST_DATABASE_PORT}:${DATABASE_PORT}"
+        networks:
+            - dev_network
+        volumes:
+            - ./var/db_data:/pgdata
+
+networks:
+    dev_network:
+        driver: bridge
