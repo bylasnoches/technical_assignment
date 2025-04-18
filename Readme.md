@@ -9,7 +9,13 @@
 git clone git@github.com:bylasnoches/technical_assignment.git
 ```
 
-### 2. Set up environment variables
+### 2. Start the containers (Docker)
+```bash
+cd project
+make up
+```
+
+### 3. Set up environment variables
 ```bash
 cp docker/.env.dist docker/.env
 ```
@@ -17,10 +23,8 @@ cp docker/.env.dist docker/.env
 ```
 nano docker/.env
 ```
-
-### 3. Start the containers (Docker)
+Start containers one more time to update envs:
 ```bash
-cd project
 make up
 ```
 
@@ -30,8 +34,9 @@ make exec
 composer install
 ```
 
-### 5. Load database fixtures
+### 5. Run migrations and load database fixtures
 ```bash
+./bin/console doctrine:migrations:migrate
 ./bin/console doctrine:fixtures:load
 ```
 
@@ -66,3 +71,8 @@ The `/api/rates` endpoint allows you to retrieve historical crypto rates for a g
 curl --location 'http://0.0.0.0:8110/api/rates?baseCurrency=BTC&quoteCurrency=USD'
 ```
 
+#### 📊 With optional time range:
+
+```bash
+curl --location '0.0.0.0:8110/api/rates?baseCurrency=BTC&quoteCurrency=USD&from=2025-04-18%2012%3A22%3A11.000000&to=2025-04-18%2012%3A29%3A14.000000'
+```
