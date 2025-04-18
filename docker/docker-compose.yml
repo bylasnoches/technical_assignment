@@ -60,7 +60,7 @@ services:
         networks:
             - dev_network
         volumes:
-            - ./var/db_data:/pgdata
+            - ./var/data:/var/lib/postgresql/data
 
 networks:
     dev_network:
